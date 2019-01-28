@@ -34,19 +34,13 @@
 ### Clone or download this repository
 
 ```sh
-git clone https://github.com/sumitkr003/yelpcamp.git
+git clone https://github.com/Tushantbhasker/YelpCamp.git
 ```
 
 ### Install dependencies
 
 ```sh
 npm install
-```
-
-or
-
-```sh
-yarn install
 ```
 
 ## Built with
