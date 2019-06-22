@@ -19,13 +19,17 @@ var commentsRoutes = require("./routes/comments.js"),
 //Our Seeds
 // seedsDB();
 
-mongoose.connect("mongodb://localhost/yelpCamp");
+// mongoose.connect("mongodb://localhost/yelpCamp");
+mongoose.connect("mongodb+srv://tushant:hangcock@cluster0-4pztr.mongodb.net/test?retryWrites=true&w=majority")
+
+
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine","ejs");
 app.use(methodOverride("_method"));
 
 //PASSING A OBJECT INTO EVERY ROUTES
-app.use(function(req,res,next){
+app.use(function(req,res,next){``
     res.locals.currentUser = req.user;
     next();
 });
@@ -48,7 +52,10 @@ app.use(campgroundsRoutes);
 app.use(indexRoutes);
 
 
-
+// app.listen(process.env.PORT, process.env.IP);
 app.listen("3000",function(){
     console.log("Server has started");
 })
+
+
+// https://limitless-caverns-54739.herokuapp.com/

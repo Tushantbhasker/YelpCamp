@@ -56,19 +56,14 @@ route.get("/campgrounds/:id",function(req,res){
 });
 
 //Edit route
-route.get("/campgrounds/:id/edit", function(req,res){
+route.get("/campgrounds/:id/edit",checkCampgroundOwnership, function(req,res){
     Campgrounds.findById(req.params.id,function(err, campground){
-        if(err){
-            console.log(err);
-        }
-        else{
-            res.render("campgrounds/edit",{campground:campground});
-        }
-    });
-    
+        res.render("campgrounds/edit",{campground:campground});
+            
+    });   
 });
 //Update route
-route.put("/campgrounds/:id", function(req,res){
+route.put("/campgrounds/:id",checkCampgroundOwnership, function(req,res){
     
     Campgrounds.findByIdAndUpdate(req.params.id,req.body.camp,function(err,updatedCamp){
         if(err){
@@ -81,14 +76,16 @@ route.put("/campgrounds/:id", function(req,res){
 });
 
 // Destroy campground route
-route.delete("/campgrounds/:id", function(req,res){
-    Campgrounds.findByIdAndRemove(req.params.id, function(err){
-        if(err){
-            console.log(err);
-        }else{
-            res.redirect("/campgrounds");
-        }
-    });
+route.delete("/campgrounds/:id", checkCampgroundOwnership,function(req,res){
+        Campgrounds.findByIdAndRemove(req.params.id, function(err){
+            if(err){
+                console.log(err);
+            }else{
+
+                res.redirect("/campgrounds");
+            }
+        });
+    
 });
 //MIDDLEWARE
 function isLoggedIn(req,res,next){
@@ -97,5 +94,25 @@ function isLoggedIn(req,res,next){
     }
     res.redirect("/login")
 }
-
+function checkCampgroundOwnership(req, res, next){
+    if(req.isAuthenticated()){
+        Campgrounds.findById(req.params.id,function(err, campground){
+            if(err){
+                console.log(err);
+            }
+            else{
+                if(campground.author.id.equals(req.user._id)){
+                    next();
+                }
+                else{
+                    res.redirect("back");
+                }
+               
+            }
+        });
+    }
+    else{
+        res.redirect("back");
+    }
+}
 module.exports = route;
