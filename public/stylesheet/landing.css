@@ -35,7 +35,7 @@ body {
     animation: imageAnimation 50s linear infinite;
 }
 .slideshow li:nth-child(1) {
-    background-image: url(https://images5.alphacoders.com/555/thumb-1920-555700.jpg)
+    background-image: url(http://i.imgur.com/emvhOnb.jpg)
 }
 .slideshow li:nth-child(2) {
     background-image: url(http://i.imgur.com/SBEmFpv.jpg);
