@@ -17,19 +17,13 @@ var indexRoutes             = require("./routes/index"),
     campgroundRoutes        = require("./routes/campground");
 
 mongoose.connect("mongodb://localhost/yelp_camp",{ useMongoClient: true });
-// mongoose.connect("mongodb+srv://bhaskar:bhaskar@cluster0-4pztr.mongodb.net/test?retryWrites=true&w=majority")
-
-
 app.use(bodyparser.urlencoded({extended: true}));
 app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
-// seedDB();
 
-//======================================================================================================
-//PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "i am a huge fan of msd",
+    secret: "rusty is my dong name",
     resave: false,
     saveUninitialized: false
 }));
@@ -41,7 +35,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//======================================================================================================
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
     res.locals.error = req.flash("error");
@@ -53,7 +46,8 @@ app.use("/",indexRoutes);
 app.use("/campgrounds",campgroundRoutes);
 app.use("/campgrounds/:id/comments",commentRoutes);
 
-//======================================================================================================
-app.listen("3000",function(){
+const port = process.env.PORT || 3000;
+
+app.listen(port,() => {
    console.log("server has started");
 });
